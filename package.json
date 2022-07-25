@@ -2,6 +2,8 @@
     "name": "api-project",
     "scripts": {
         "format": "prettier --write .",
+        "lint": "eslint . --fix --cache",
+        "build": "tsc",
         "test": "jest"
     },
     "engines": {
@@ -16,7 +18,10 @@
     },
     "homepage": "https://github.com/amaliacicala/api-project#readme",
     "devDependencies": {
+        "@tsconfig/node16": "^1.0.3",
+        "@types/node": "^18.6.1",
         "jest": "^28.1.3",
-        "prettier": "2.7.1"
+        "prettier": "2.7.1",
+        "typescript": "^4.7.4"
     }
 }
