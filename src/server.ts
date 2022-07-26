@@ -1,3 +1,7 @@
-const name = "Amalia";
+type Name = string;
 
-console.log(`Hello, ${name}`);
+const name: Name = "Amalia";
+
+throw new Error("Something went wrong");
+
+console.log(`Hello ${name}`);

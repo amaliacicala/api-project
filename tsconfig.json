@@ -1,7 +1,8 @@
 {
     "extends": "@tsconfig/node16/tsconfig.json",
     "compilerOptions": {
-        "outDir": "./dist" // path where we want the JS files to end up after having been compiled from TS
+        "outDir": "./dist", // path where we want the JS files to end up after having been compiled from TS
+        "sourceMap": true
     },
     "include": ["./src/**/*.ts"], // what types of files we want to include: any files that end with the .ts extension in the src directory
     "exclude": ["./src/**/*.test.js"] // types of files that we want to exclude: any files that end with ending.test.ts; we don't want the TS compiler to compile test files, as they'll be handled separately later
