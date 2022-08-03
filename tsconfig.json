@@ -5,5 +5,5 @@
         "sourceMap": true
     },
     "include": ["./src/**/*.ts"], // what types of files we want to include: any files that end with the .ts extension in the src directory
-    "exclude": ["./src/**/*.test.js"] // types of files that we want to exclude: any files that end with ending.test.ts; we don't want the TS compiler to compile test files, as they'll be handled separately later
+    "exclude": ["./src/**/*.test.ts"] // types of files that we want to exclude: any files that end with ending.test.ts; we don't want the TS compiler to compile test files, as they'll be handled separately later
 }
