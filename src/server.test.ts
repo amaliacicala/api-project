@@ -6,6 +6,22 @@ import app from "./app";
 
 const request = supertest(app);
 
+test("POST /planets", async () => {
+    const planet = {
+        name: "Uranus",
+        diameter: 55,
+        moons: 1,
+    };
+
+    const response = await request
+        .post("/planets")
+        .send(planet)
+        .expect(201)
+        .expect("Content-Type", /application\/json/);
+
+    expect(response.body).toEqual(planet);
+});
+
 test("GET /planets", async () => {
     const planets = [
         {

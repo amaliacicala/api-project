@@ -5,10 +5,20 @@ import prisma from "./lib/prisma/client";
 
 const app = express();
 
+app.use(express.json());
+
+// GET /planets - Retrieve all planets
 app.get("/planets", async (request, response) => {
     const planets = await prisma.planet.findMany();
 
     response.json(planets);
+});
+
+// POST /planets - Create a new planet
+app.post("/planets", async (request, response) => {
+    const planet = request.body;
+
+    response.status(201).json(planet);
 });
 
 export default app;
