@@ -9,14 +9,25 @@ const request = supertest(app);
 describe("POST /planets", () => {
     test("Valid request", async () => {
         const planet = {
+            id: 4,
             name: "Uranus",
+            description: null,
             diameter: 55,
             moons: 1,
+            createdAt: "2022-08-04T17:46:28.659Z",
+            updatedAt: "2022-08-04T17:46:28.668Z",
         };
+
+        // @ts-ignore
+        prismaMock.planet.create.mockResolvedValue(planet);
 
         const response = await request
             .post("/planets")
-            .send(planet)
+            .send({
+                name: "Uranus",
+                diameter: 55,
+                moons: 1,
+            })
             .expect(201)
             .expect("Content-Type", /application\/json/);
 
