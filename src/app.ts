@@ -1,6 +1,5 @@
 import express from "express";
 import "express-async-errors";
-import { nextTick } from "process";
 
 import prisma from "./lib/prisma/client";
 
@@ -74,6 +73,22 @@ app.put(
         }
     }
 );
+
+// DELETE /planets/:id - Delete a planet
+app.delete("/planets/:id(\\d+)", async (request, response, next) => {
+    const planetId = Number(request.params.id);
+
+    try {
+        await prisma.planet.delete({
+            where: { id: planetId },
+        });
+
+        response.status(204).end();
+    } catch (error) {
+        response.status(404);
+        next(`Cannot DELETE /planets/${planetId}`);
+    }
+});
 
 app.use(validationErrorMiddleware);
 
