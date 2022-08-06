@@ -6,7 +6,7 @@ import app from "./app";
 
 const request = supertest(app);
 
-// GET /planets - Tests for retrieving all planets
+// GET /planets - Test for retrieving all planets
 describe("GET /planets", () => {
     test("Valid request", async () => {
         const planets = [
