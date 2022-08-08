@@ -114,11 +114,25 @@ app.post(
             return next("No photo file uploaded.");
         }
 
+        const planetId = Number(request.params.id);
         const photoFilename = request.file.filename;
 
-        response.status(201).json({ photoFilename });
+        try {
+            await prisma.planet.update({
+                where: { id: planetId },
+                data: { photoFilename },
+            });
+
+            response.status(201).json({ photoFilename });
+        } catch (error) {
+            response.status(404);
+            next(`Cannot POST /planets/${planetId}/photo`);
+        }
     }
 );
+
+// view uploaded photos in the browser - http://localhost:3000/planets/photos/{filename.extension}
+app.use("/planets/photos", express.static("uploads"));
 
 app.use(validationErrorMiddleware);
 
