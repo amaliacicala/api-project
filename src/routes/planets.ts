@@ -41,13 +41,19 @@ router.get("/:id(\\d+)", async (request, response, next) => {
 
 // POST /planets - Create a new planet
 router.post(
-    "/", checkAuthorization,
+    "/",
+    checkAuthorization,
     validate({ body: planetSchema }),
     async (request, response) => {
         const planetData: PlanetData = request.body;
+        const username = request.user?.username as string;
 
         const planet = await prisma.planet.create({
-            data: planetData,
+            data: {
+                ...planetData,
+                updatedBy: username,
+                createBy: username,
+            },
         });
 
         response.status(201).json(planet);
@@ -56,16 +62,22 @@ router.post(
 
 // PUT /planets/:id - Replace an existing planet
 router.put(
-    "/:id(\\d+)", checkAuthorization,
+    "/:id(\\d+)",
+    checkAuthorization,
     validate({ body: planetSchema }),
     async (request, response, next) => {
         const planetId = Number(request.params.id);
         const planetData: PlanetData = request.body;
+        const username = request.user?.username as string;
 
         try {
             const planet = await prisma.planet.update({
                 where: { id: planetId },
-                data: planetData,
+                data: {
+                    ...planetData,
+                    updatedBy: username,
+                    createBy: username,
+                },
             });
 
             response.status(200).json(planet);
@@ -77,24 +89,29 @@ router.put(
 );
 
 // DELETE /planets/:id - Delete a planet
-router.delete("/:id(\\d+)", checkAuthorization, async (request, response, next) => {
-    const planetId = Number(request.params.id);
+router.delete(
+    "/:id(\\d+)",
+    checkAuthorization,
+    async (request, response, next) => {
+        const planetId = Number(request.params.id);
 
-    try {
-        await prisma.planet.delete({
-            where: { id: planetId },
-        });
+        try {
+            await prisma.planet.delete({
+                where: { id: planetId },
+            });
 
-        response.status(204).end();
-    } catch (error) {
-        response.status(404);
-        next(`Cannot DELETE /planets/${planetId}`);
+            response.status(204).end();
+        } catch (error) {
+            response.status(404);
+            next(`Cannot DELETE /planets/${planetId}`);
+        }
     }
-});
+);
 
 // POST /planets/:id/photo - Upload a photo to a planet
 router.post(
-    "/:id(\\d+)/photo", checkAuthorization,
+    "/:id(\\d+)/photo",
+    checkAuthorization,
     upload.single("photo"),
     async (request, response, next) => {
         // if there's no file
