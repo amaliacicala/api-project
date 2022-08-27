@@ -7,7 +7,6 @@ import { initSessionMiddleware } from "./lib/middleware/session";
 import { passport } from "./lib/middleware/passport";
 
 import planetsRoutes from "./routes/planets";
-
 import authRoutes from "./routes/auth";
 
 const app = express();

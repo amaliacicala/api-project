@@ -8,6 +8,8 @@ import {
     PlanetData,
 } from "../lib/middleware/validation";
 
+import { checkAuthorization } from "../lib/middleware/passport";
+
 import { initMulterMiddleware } from "../lib/middleware/multer";
 
 const upload = initMulterMiddleware();
@@ -39,7 +41,7 @@ router.get("/:id(\\d+)", async (request, response, next) => {
 
 // POST /planets - Create a new planet
 router.post(
-    "/",
+    "/", checkAuthorization,
     validate({ body: planetSchema }),
     async (request, response) => {
         const planetData: PlanetData = request.body;
@@ -54,7 +56,7 @@ router.post(
 
 // PUT /planets/:id - Replace an existing planet
 router.put(
-    "/:id(\\d+)",
+    "/:id(\\d+)", checkAuthorization,
     validate({ body: planetSchema }),
     async (request, response, next) => {
         const planetId = Number(request.params.id);
@@ -75,7 +77,7 @@ router.put(
 );
 
 // DELETE /planets/:id - Delete a planet
-router.delete("/:id(\\d+)", async (request, response, next) => {
+router.delete("/:id(\\d+)", checkAuthorization, async (request, response, next) => {
     const planetId = Number(request.params.id);
 
     try {
@@ -92,7 +94,7 @@ router.delete("/:id(\\d+)", async (request, response, next) => {
 
 // POST /planets/:id/photo - Upload a photo to a planet
 router.post(
-    "/:id(\\d+)/photo",
+    "/:id(\\d+)/photo", checkAuthorization,
     upload.single("photo"),
     async (request, response, next) => {
         // if there's no file

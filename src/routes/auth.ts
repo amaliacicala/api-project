@@ -4,7 +4,10 @@ import { passport } from "../lib/middleware/passport";
 const router = Router();
 
 router.get("/login", (request, response, next) => {
-    if (typeof request.query.redirectTo !== "string" || !request.query.redirectTo) {
+    if (
+        typeof request.query.redirectTo !== "string" ||
+        !request.query.redirectTo
+    ) {
         response.status(400);
         return next("Missing redirectTo query string parameter");
     }
@@ -37,7 +40,10 @@ router.get(
 );
 
 router.get("/logout", (request, response, next) => {
-    if (typeof request.query.redirectTo !== "string" || !request.query.redirectTo) {
+    if (
+        typeof request.query.redirectTo !== "string" ||
+        !request.query.redirectTo
+    ) {
         response.status(400);
         return next("Missing redirectTo query string parameter");
     }
